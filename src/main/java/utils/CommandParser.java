@@ -8,7 +8,7 @@ public class CommandParser {
     public CommandContainer parse(String rw, MessageReceivedEvent event) {
         ArrayList<String> split = new ArrayList<String>();
         String raw = rw;
-        String beheaded = raw.replaceFirst("@" + event.getJDA().getSelfInfo().getUsername() + " ", "");
+        String beheaded = raw.replaceFirst("(.*)! ", "");
         String[] splitBeheaded = beheaded.split(" ");
         for(String arg:splitBeheaded) {
             split.add(arg);

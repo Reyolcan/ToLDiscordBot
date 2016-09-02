@@ -1,5 +1,6 @@
 import commands.Command;
 import commands.PictureCommand;
+import commands.StoneCommand;
 import commands.UnitCommand;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
@@ -15,12 +16,13 @@ public class Main extends ListenerAdapter {
 
     public static final CommandParser parser = new CommandParser();
     public static HashMap<String, Command> commands = new HashMap<String, Command>();
+    public static HashMap<String, Command> adminCommands = new HashMap<String, Command>();
 
     public static void main(String[] args)
     {
         try
         {
-            JDA jda = new JDABuilder()
+            jda = new JDABuilder()
                     .addListener(new BotListener())
                     .setBotToken("MjE5NTI5NDgxNjA0MzAwODAw.CqT1zQ._PS7w0PXLNEBQsZc73MM5zTVHDo")
                     .buildBlocking();
@@ -28,7 +30,9 @@ public class Main extends ListenerAdapter {
 
             commands.put("dhaps", new PictureCommand());
             commands.put("units", new UnitCommand());
+            commands.put("hs", new StoneCommand(false));
 
+            adminCommands.put("hs", new StoneCommand(true));
         }
         catch (IllegalArgumentException e)
         {
@@ -51,6 +55,20 @@ public class Main extends ListenerAdapter {
             if(safe) {
                 commands.get(cmd.invoke).action(cmd.args, cmd.event);
                 commands.get(cmd.invoke).executed(safe, cmd.event);
+            }
+            else {
+
+            }
+        }
+    }
+
+    public static void handleAdminCommand(CommandParser.CommandContainer cmd) {
+        if(adminCommands.containsKey(cmd.invoke)) {
+            boolean safe = adminCommands.get(cmd.invoke).called(cmd.args, cmd.event);
+
+            if(safe) {
+                adminCommands.get(cmd.invoke).action(cmd.args, cmd.event);
+                adminCommands.get(cmd.invoke).executed(safe, cmd.event);
             }
             else {
 

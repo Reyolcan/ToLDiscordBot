@@ -41,7 +41,6 @@ public class UnitCommand implements Command {
             if (categNodes.getLength() > 0) {
                 for (int i = 0; i < categNodes.getLength(); i++) {
                     if(categNodes.item(i).getAttributes().getNamedItem("title").getTextContent().equals("Category:Character")) {
-                        System.out.print(categNodes.item(i).getAttributes().getNamedItem("title"));
                         return true;
                     }
                 }
