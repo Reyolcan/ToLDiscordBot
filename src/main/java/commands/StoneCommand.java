@@ -57,9 +57,10 @@ public class StoneCommand implements Command{
                         }
                         break;
                     case "take":
+                        System.out.print("hi?");
                         if(db.setStones(Integer.parseInt(args[2]) * -1, event.getMessage().getMentionedUsers().get(0).getId())) {
-                            event.getChannel().sendMessage(event.getMessage().getMentionedUsers().get(0).getUsername() + " got " + args[2]
-                                    + " new shiny stone" + (Integer.parseInt(args[2]) == 1? "" : "s"));
+                            event.getChannel().sendMessage(event.getMessage().getMentionedUsers().get(0).getUsername() + " lost " + args[2]
+                                    + " stone" + (Integer.parseInt(args[2]) == 1? "" : "s") + " to the void");
                         }
                         else {
                             event.getChannel().sendMessage("There was some error processing that command :cry:");
