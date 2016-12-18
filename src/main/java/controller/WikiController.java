@@ -1,4 +1,4 @@
-package utils;
+package controller;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -9,8 +9,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class WikiCall {
+public class WikiController {
     private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private DocumentBuilder db = null;
     private String contQuery = "";
@@ -65,6 +69,19 @@ public class WikiCall {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String formatDateForWiki(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy'T'hh:mm:ss'Z'"));
+    }
+
+    public String getUnitData(String name, String data) {
+        Pattern regex = Pattern.compile("[|][ ]*" + name + "[ ]*=[ ]*[^|]+[ ]*[\n]");
+        Matcher match = regex.matcher(data);
+        if(match.find()) {
+            return match.group().split("=")[1].replaceAll("^[ ]*", "").replaceAll("[ ]*[\n]$", "");
         }
         return null;
     }

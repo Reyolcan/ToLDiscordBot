@@ -1,14 +1,21 @@
 package utils;
 
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
 
-public class CommandParser {
-    public CommandContainer parse(String rw, MessageReceivedEvent event) {
+public class Parser {
+    public CommandContainer parseCommand(String rw, MessageReceivedEvent event) {
         ArrayList<String> split = new ArrayList<String>();
         String raw = rw;
-        String beheaded = raw.replaceFirst("(.*)! ", "");
+        if(event.getMessage().getMentionedUsers().size() > 0) {
+            for(User user:event.getMessage().getMentionedUsers()) {
+                raw = raw.replace(user.getUsername(), user.getUsername().replace(" ", "_"));
+            }
+        }
+        String beheaded = raw.replaceFirst("\\$\\$", "");
+        //String beheaded = raw.replaceFirst("(.*)! ", "");
         String[] splitBeheaded = beheaded.split(" ");
         for(String arg:splitBeheaded) {
             split.add(arg);
